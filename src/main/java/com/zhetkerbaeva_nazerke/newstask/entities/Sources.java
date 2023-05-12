@@ -15,7 +15,7 @@ public class Sources {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private Long source_id;
+    private Long id;
 
     @Column(name="source")
     private String source;

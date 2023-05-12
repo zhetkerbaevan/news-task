@@ -21,4 +21,10 @@ public class News {
     @Column(name="news")
     private String news;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Sources sources;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Topics topic;
+
 }
