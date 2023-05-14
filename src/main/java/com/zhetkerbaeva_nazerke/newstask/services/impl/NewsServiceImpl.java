@@ -8,6 +8,8 @@ import com.zhetkerbaeva_nazerke.newstask.repositories.SourcesRepository;
 import com.zhetkerbaeva_nazerke.newstask.repositories.TopicsRepository;
 import com.zhetkerbaeva_nazerke.newstask.services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,13 +37,14 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public List<News> getAllNews() {
-        return newsRepository.findAll();
+    public List<News> getAllNews(int pageNumber, int recordCount) {
+        Pageable pageable = PageRequest.of(pageNumber, recordCount);
+        return newsRepository.findAll(pageable).get().toList();
     }
 
     @Override
     public Sources getSource(Long id) {
-        return sourcesRepository.getOne(id);
+        return sourcesRepository.findById(id).get();
     }
 
     @Override
@@ -55,13 +58,13 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public void deleteSource(Sources source) {
-        sourcesRepository.delete(source);
+    public void deleteSource(Long id) {
+        sourcesRepository.deleteById(id);
     }
 
     @Override
     public Topics getTopics(Long id) {
-        return topicsRepository.getOne(id);
+        return topicsRepository.findById(id).get();
     }
 
     @Override
@@ -75,13 +78,13 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public void deleteTopics(Topics topic) {
-        topicsRepository.delete(topic);
+    public void deleteTopics(Long id) {
+        topicsRepository.deleteById(id);
     }
 
     @Override
     public News getNews(Long id) {
-        return newsRepository.getOne(id);
+        return newsRepository.findById(id).get();
     }
 
     @Override
@@ -95,17 +98,19 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public void deleteNews(News news) {
-        newsRepository.delete(news);
+    public void deleteNews(Long id) {
+        newsRepository.deleteById(id);
     }
 
     @Override
-    public List<News> getNewsByTopicId(Long id) {
-        return newsRepository.findByTopicId(id);
+    public List<News> getNewsByTopicId(Long id, int pageNumber, int recordCount) {
+        Pageable pageable = PageRequest.of(pageNumber, recordCount);
+        return newsRepository.findByTopicId(id, pageable);
     }
 
     @Override
-    public List<News> getNewsBySourceId(Long id) {
-        return newsRepository.findBySourcesId(id);
+    public List<News> getNewsBySourceId(Long id, int pageNumber, int recordCount) {
+        Pageable pageable = PageRequest.of(pageNumber, recordCount);
+        return newsRepository.findBySourcesId(id, pageable);
     }
 }
